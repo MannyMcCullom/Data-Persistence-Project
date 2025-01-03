@@ -7,10 +7,15 @@ using System.IO;
 using TMPro;
 using UnityEngine.PlayerLoop;
 
-public class MenuBakground : MonoBehaviour {
+public class MenuBackground : MonoBehaviour {
     public Brick BrickPrefab;
     public int LineCount = 6;
     public Rigidbody Ball;
+
+    public void Start()
+    {
+        Simulate();
+    }
 
     public void BreakBricks()
     {
