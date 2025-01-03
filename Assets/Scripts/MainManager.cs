@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.IO;
+using TMPro;
+using UnityEngine.PlayerLoop;
 
 public class MainManager : MonoBehaviour
 {
@@ -18,10 +21,21 @@ public class MainManager : MonoBehaviour
     
     private bool m_GameOver = false;
 
-    
+    public string playerName;
+    public int playerScore;
+
+    [SerializeField] NameHandler names;
+
+    //public static MainManager Instance;
+
     // Start is called before the first frame update
     void Start()
     {
+        playerName = names.getPlayerName();
+        playerScore = names.getPlayerScore();
+
+        ScoreText.text = $"Score :";
+
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
@@ -65,11 +79,14 @@ public class MainManager : MonoBehaviour
     void AddPoint(int point)
     {
         m_Points += point;
-        ScoreText.text = $"Score : {m_Points}";
+        playerScore = m_Points;
+        ScoreText.text = $"Score : " + m_Points;
     }
 
     public void GameOver()
     {
+        names.SavePlayer(playerName, playerScore);
+
         m_GameOver = true;
         GameOverText.SetActive(true);
     }
